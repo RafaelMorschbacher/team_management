@@ -1,44 +1,28 @@
 import express, { Application, Request, Response, application } from 'express'
 import {UUID} from 'node:crypto'
 import { Employee } from './models/employee';
+import {EmployeeController} from './controllers/employeeController'
 import body_parser from 'body-parser'
 const app:Application = express();
 
 
-//MODELS
+//MODELS and CONTROLLERS
 const employeeModel = new Employee();
+const employeeController = new EmployeeController()
 
 //CONFIGS
 app.use(body_parser.json())
 
 //REQUESTS
-app.get('/', async (req:Request,res:Response)=>{
-    return res.send(await employeeModel.list())
-});
+app.get('/employee', employeeController.list_all_employees);
 
-app.post('/employee', async(req:Request,res:Response)=>{
-    const {first_name, last_name, birth_year, monthly_salary, seniority, specialty} = req.body ; 
-    await employeeModel.create({first_name, last_name, birth_year, monthly_salary, seniority, specialty});
-    return res.status(201).send();
-});
+app.post('/employee', employeeController.create_employee);
 
-app.get('/employee/:id', async(req:Request,res:Response)=>{
-    const employee_id = req.params.id;
-    return res.send(await employeeModel.find(employee_id))
-})
+app.get('/employee/:id', employeeController.search_employee)
 
-app.delete('/employee', (req,res)=>{
-    const {employee_id} = req.body  
-    employeeModel.delete(employee_id)
-    res.status(204).send()
-})
+app.delete('/employee', employeeController.delete_employee)
 
-app.put('/employee', async (req,res)=>{
-    const employee_id = req.body.employee_id
-    const employee = req.body.employee; 
-    await employeeModel.update(employee_id,employee)
-    return res.status(204).send();
-})
+app.put('/employee', employeeController.update_employee)
 
 //listen for requests
 const port = process.env.PORT || 3000;
