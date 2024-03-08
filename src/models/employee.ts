@@ -1,29 +1,38 @@
-import {randomUUID, UUID} from 'node:crypto'
+import {sql} from '../postgres'
+
+interface EmployeeData {
+    last_name:string, 
+    first_name: string,
+    birth_year: number , 
+    monthly_salary:number ,
+    seniority: string,
+    specialty:string,
+    };
+
 export class Employee{
 
-    #in_memory_list = new Map();
-
-    list(){
-        const all_employees = Array.from(this.#in_memory_list.entries()).map((iterable)=>{
-            const id = iterable[0]
-            return {id, ...iterable[1]}
-        })
-        return all_employees
+    async list(){
+        return await sql`SELECT * FROM employees`
     }
 
-    create(employee: {name: string, monthly_salary:number ,specialty?:string}){
-        this.#in_memory_list.set(randomUUID(), employee)
+    async create(employee: EmployeeData){
+
+        const {first_name, last_name, birth_year, monthly_salary, seniority, specialty} = employee
+        await sql`INSERT INTO employees (first_name, last_name, birth_year, monthly_salary, specialty, seniority)
+                            VALUES (${first_name}, ${last_name}, ${birth_year}, ${monthly_salary}, ${specialty}, ${seniority});`
     }
 
-    find(employee_id?:UUID){
-        return this.#in_memory_list.get(employee_id);
+    async find(employee_id:string){
+        return await sql`SELECT * FROM employees WHERE employee_id = ${employee_id}`
     }
 
-    update(employee_id:UUID,employee: {name: string, monthly_salary:number ,specialty?:string}){
-        this.#in_memory_list.set(employee_id, employee)
+    async update(employee_id:string, employee:EmployeeData){
+        const {birth_year, first_name, last_name, monthly_salary, seniority, specialty} = employee
+        await sql`UPDATE employees SET first_name = ${first_name}, last_name= ${last_name}, birth_year= ${birth_year}, monthly_salary= ${monthly_salary}, specialty= ${specialty}, seniority= ${seniority}
+                    WHERE employee_id = ${employee_id}`
     }
     
-    delete(employee_id: UUID){
-        this.#in_memory_list.delete(employee_id)
+    async delete(employee_id: string){
+        return await sql`DELETE FROM employees WHERE employee_id = ${employee_id}`
     }
 }
