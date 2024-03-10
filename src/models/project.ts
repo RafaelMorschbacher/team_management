@@ -30,4 +30,12 @@ export class Project{
                     SET name = ${name},	description = ${description},	start_date = ${start_date},	due_date = ${due_date},	status = ${status},	manager_id = ${manager_id?? null}
                     WHERE project_id = ${project_id}`
     }
+
+    async delete(project_id:string){
+        await sql`DELETE FROM projects WHERE project_id = ${project_id}`
+    }
+
+    async assign_manager(project_id:string, manager_id:string){
+        await sql`UPDATE projects SET manager_id = ${manager_id} WHERE project_id = ${project_id}`
+    }
 }
