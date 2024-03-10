@@ -10,4 +10,5 @@ projectRoutes.get('/', projectController.list_all_projects);
 projectRoutes.post('/', projectController.create_project);
 projectRoutes.put('/', projectController.update_project);
 projectRoutes.delete('/', projectController.delete_project)
+projectRoutes.patch('/', projectController.assign_manager)
 

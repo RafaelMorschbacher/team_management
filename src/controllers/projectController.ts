@@ -31,6 +31,8 @@ const delete_project:RequestHandler = async(req,res)=>{
 
 const assign_manager:RequestHandler = async(req,res)=>{
     const {project_id,manager_id} = req.body
+    await projectModel.assign(project_id,manager_id);
+    res.status(204).send();
 }
 
-export default {list_all_projects, create_project,update_project,delete_project}
+export default {list_all_projects, create_project,update_project,delete_project, assign_manager}
