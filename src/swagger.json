@@ -1,0 +1,13 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Team management api",
+        "summary": "A team management api",
+        "description": "A back-end application for managing teams, employees and projects",
+        "license": {
+          "name": "Apache 2.0",
+          "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+      }
+}
