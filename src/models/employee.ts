@@ -23,7 +23,14 @@ export class Employee{
     }
 
     async find(employee_id:string){
-        return await sql`SELECT * FROM employees WHERE employee_id = ${employee_id}`
+        const employee_data = await sql`SELECT * FROM employees WHERE employee_id = ${employee_id} LIMIT 1`
+        //const allocated_projects = await sql`SELECT * FROM project_allocations WHERE employee_id = ${employee_id}`
+        const allocated_projects = await sql`SELECT  p.project_id, p.name, p.description, a.role, a.start_date, a.end_date
+                                            FROM project_allocations a
+                                                JOIN projects p ON p.project_id = a.project_id
+                                                WHERE employee_id = ${employee_id}`
+
+        return {employee_data: employee_data[0], allocated_projects}
     }
 
     async update(employee_id:string, employee:EmployeeData){
