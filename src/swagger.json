@@ -8,6 +8,10 @@
       },
       "servers" : [
         {
+            "url": "https://team-management-0br5.onrender.com/",
+            "description": "Render Deploy"
+        },
+        {
             "url": "http://localhost:3000",
             "description": "localhost"
         }
