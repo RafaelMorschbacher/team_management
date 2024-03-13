@@ -119,7 +119,7 @@
                     }
                 },
                 "responses": {
-                    "204":{
+                    "200":{
                         "description" : "Sucess message",
                         "content":{
                             "application/json": {
@@ -182,7 +182,7 @@
                     }
                 },
                 "responses": {
-                    "204":{
+                    "200":{
                         "description" : "Sucess message",
                         "content":{
                             "application/json": {
@@ -233,6 +233,322 @@
                     }
                 }
             }
+        },
+        "/project": {
+            "get":{
+                "summary": "Gets a list of all projects",
+                "description": "This endpoint gets a list of all projects registered in the database and their data",
+                "tags": ["Projects"],
+                "responses": {
+                    "200":{
+                        "description" : "A list of all projects",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {"$ref": "#components/schemas/Project"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Creates a new project",
+                "description": "This endpoint creates a new employee in the database with their given data",
+                "tags": ["Projects"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "properties": {
+                                    "name": {"type": "string"},
+                                    "description": {"type": "string"},
+                                    "role": {"type": "string"},
+                                    "start_date": {"type": "string"},
+                                    "end_date": {"type": "string"},
+                                    "manager_id": {"type": "string"}
+                                }
+                            }, 
+                            "examples": {
+                                "employee": {
+                                    "value":  {
+                                        "name": "New features on weather app",
+                                        "description": "Develop and launch the features that will be released on the upcoming update.",
+                                        "start_date": "2024-03-04T00:00:00.000Z",
+                                        "due_date": "2024-10-15T00:00:00.000Z",
+                                        "status": "Planning",
+                                        "manager_id": null
+                                      }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "summary": "Updates a project's data",
+                "description": "This endpoint updates a project's information in the database with the new given data",
+                "tags": ["Projects"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "type": "object",
+                                "properties": {
+                                    "project_id": {"type":"string"},
+                                    "project":{
+                                        "type": "object",
+                                        "properties":{
+                                            "name":{"type": "string"},
+                                            "description": {"type": "string"},
+                                            "start_date": {"type": "string"},
+                                            "due_date": {"type": "string"},
+                                            "status": {"type": "string"},
+                                            "manager_id": {"type": "string", "required": "false"}
+                                        }
+                                        
+                                    }
+                                }
+                            },
+                            "examples":{
+                                "example":  {
+                                    "value": {
+                                        "project_id": "bd5f3edf-301b-4b1b-a272-053e8fca1ee5",
+                                        "project":{
+                                                "name": "Updates Project Name",
+                                                "description": "New project description",
+                                                "start_date": "10-10-2026",
+                                                "due_date": "10-10-2027",
+                                                "status": "Planning"
+                                         }
+                                    }
+                                  }
+                            }
+                            
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+            "summary": "Deletes a project",
+            "description": "This endpoint deletes the project that has the given id from the database",
+            "tags": ["Projects"],
+            "requestBody": {
+                "content":{
+                    "application/json": {
+                        "schema": { 
+                            "properties": {
+                                "project_id": {
+                                    "type": "string"
+                                }
+                            }
+                        }, 
+                        "examples": {
+                            "employee": {
+                                "value":  {
+                                    "employee_id": "(id of an existing employee)"
+                                  }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200":{
+                    "description" : "Sucess message",
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "patch": {
+            "summary": "Changes a project's current manager",
+            "description": "This endpoint updates the manager of a project that has the given id",
+            "tags": ["Projects"],
+            "requestBody": {
+                "content":{
+                    "application/json": {
+                        "schema": { 
+                            "properties": {
+                                "project_id": {
+                                    "type": "string"
+                                },
+                                "manager_id": {
+                                    "type": "string"
+                                }
+                            }
+                        }, 
+                        "examples": {
+                            "example": {
+                                "value":  {
+                                    "project_id": "089d6001-b485-4946-8737-1f150d4ef11d",
+                                    "manager_id": "351a21f0-35ca-4c6e-9bbe-98714e964a97"
+                                  }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200":{
+                    "description" : "Sucess message",
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        },
+        "/allocation":{
+            "get": {
+                "summary": "Gets a list of all allocations",
+                "description": "This endpoint gets a list of all allocations registered in the database",
+                "tags": ["Allocations"],
+                "responses": {
+                    "200":{
+                        "description" : "A list of all allocations",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {"$ref": "#components/schemas/Allocation"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Creates an allocation",
+                "description": "This endpoint allocates a project to an employee in the database",
+                "tags": ["Allocations"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "type" : "#components/schemas/Allocation"
+                            }, 
+                            "examples": {
+                                "example": {
+                                    "value":  {
+                                        "project_id": "892eef7e-372f-4b38-8c4b-25374307042a",
+                                        "employee_id": "d72d3edc-64e1-43c9-b839-103f284bdcab",
+                                        "role": "Marketing Specialist",
+                                        "start_date": "2023-03-01T00:00:00.000Z",
+                                        "end_date": "2023-10-12T00:00:00.000"
+                                      }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes an allocation",
+                "description": "This endpoint deletes an allocation in the database",
+                "tags": ["Allocations"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "type" : "object",
+                                "properties":{
+                                    "project_id": {"type": "string"},
+                                    "employee_id":{"type": "string"}
+                                }
+                            }, 
+                            "examples": {
+                                "example": {
+                                    "value":  {
+                                        "project_id": "892eef7e-372f-4b38-8c4b-25374307042a",
+                                        "employee_id": "d72d3edc-64e1-43c9-b839-103f284bdcab"
+                                      }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
       },
       "components": {
@@ -259,6 +575,25 @@
                     "start_date": {"type": "string"},
                     "end_date": {"type": "string"}
                 }
+            },
+            "Project":{
+                "type": "object",
+                "properties": {
+                    "project_id": {"type": "string"},
+                    "name":{"type": "string"},
+                    "description": {"type": "string"},
+                    "start_date": {"type": "string"},
+                    "due_date": {"type": "string"},
+                    "status": {"type": "string"},
+                    "manager_id": {"type": "string"}
+                }
+            },
+            "Allocation": {
+                "project_id": {"type": "string"},
+                "employee_id": {"type": "string"},
+                "role": {"type": "string"},
+                "start_date": {"type": "string"},
+                "end_date": {"type": "string"}
             }
 
         }

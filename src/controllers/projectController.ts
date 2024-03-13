@@ -10,14 +10,14 @@ const list_all_projects:RequestHandler = async (req,res)=>{
 const create_project:RequestHandler = async (req,res)=>{
     const {description,due_date,name,start_date,status, manager_id} = req.body;
     await projectModel.create({name,description,due_date,start_date,status, manager_id})
-    res.status(201).send()
+    res.status(201).send({message: "Project sucessfully created"})
 }
 
 const update_project:RequestHandler = async (req,res)=>{
     const {project_id} = req.body
     const {description,due_date,name,start_date,status, manager_id} = req.body.project;
     await projectModel.update(project_id,{name,description,due_date,start_date,status, manager_id})
-    res.status(204).send();
+    res.status(200).send({message: "Project sucessfully updated"});
 }
 
 
@@ -26,13 +26,13 @@ const delete_project:RequestHandler = async(req,res)=>{
     console.log(project_id)
     await projectModel.delete(project_id)
     
-    res.status(204).send()
+    res.status(200).send({message: "Project sucessfully deleted"})
 }
 
 const assign_manager:RequestHandler = async(req,res)=>{
     const {project_id,manager_id} = req.body
     await projectModel.assign(project_id,manager_id);
-    res.status(204).send();
+    res.status(200).send({message: "Project sucessfully updated"});
 }
 
 export default {list_all_projects, create_project,update_project,delete_project, assign_manager}

@@ -17,6 +17,10 @@ app.use('/employee', employeeRoutes)
 app.use('/project', projectRoutes)
 app.use('/allocation', allocation_routes)
 
+app.get('/', (req, res) => {
+  res.redirect('/api-docs')
+ });
+
 // Documentation with swaggrer
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 

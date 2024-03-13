@@ -21,14 +21,14 @@ import {Employee} from '../models/employee'
     const delete_employee:RequestHandler = async (req,res)=>{
         const {employee_id} = req.body  
         await employeeModel.delete(employee_id)
-        res.status(204).send({message: "Employee sucessfully deleted"})
+        res.status(200).send({message: "Employee sucessfully deleted"})
     }
 
     const update_employee:RequestHandler = async (req,res)=>{
         const employee_id = req.body.employee_id
         const employee = req.body.employee; 
         await employeeModel.update(employee_id,employee)
-        return res.status(204).send({message: "Employee sucessfully updated"});
+        return res.status(200).send({message: "Employee sucessfully updated"});
     }
 
     export default {list_all_employees,create_employee,search_employee, delete_employee, update_employee}
