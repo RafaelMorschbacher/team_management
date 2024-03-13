@@ -1,6 +1,6 @@
 # Team and Project Management API
 
-This repository contains a backend application (API) for managing teams and projects. It's built with TypeScript and Express.js, interacting with a PostgreSQL database. The API provides endpoints to manage employees, projects, and allocations, which are stored in the PostgreSQL tables. <br>
+This repository contains a back-end application for managing teams and projects. It's built with TypeScript and Express.js, interacting with a PostgreSQL database. This API provides endpoints to manage employees, projects, and allocations, which are stored in the PostgreSQL tables. <br>
 The API and database were depolyed using Render (https://team-management-0br5.onrender.com) and [neon.tech](https://neon.tech/). <br>
 **WARNING**: the neon database may be down when you try to run the examples, due to the limit of use of the free tier the platform.
 
