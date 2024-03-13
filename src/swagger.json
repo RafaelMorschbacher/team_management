@@ -1,13 +1,267 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Team management api",
-        "summary": "A team management api",
-        "description": "A back-end application for managing teams, employees and projects",
-        "license": {
-          "name": "Apache 2.0",
-          "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "title": "Team Management Api",
+        "summary": "A teams and projects management api",
+        "description": "A back-end application for managing teams, employees and projects.",
         "version": "1.0.0"
+      },
+      "servers" : [
+        {
+            "url": "http://localhost:3000",
+            "description": "localhost"
+        }
+        
+      ],
+      "paths":{
+        "/employee": {
+            "get":{
+                "summary": "Gets a list of all employees",
+                "description": "This endpoint gets a list of all employees registered in the database and their data",
+                "tags": ["Employees"],
+                "responses": {
+                    "200":{
+                        "description" : "A list of all employees",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {"$ref": "#components/schemas/Employee"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post":{
+                "summary": "Creates a new employee",
+                "description": "This endpoint creates a new employee in the database with their given data",
+                "tags": ["Employees"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "birth_year": {
+                                        "type": "number"
+                                    },
+                                    "monthly_salary": {
+                                        "type": "number"
+                                    },
+                                    "seniority": {
+                                        "type": "string"
+                                    },
+                                    "specialty": {
+                                        "type": "string"
+                                    }
+                                }
+                            }, 
+                            "examples": {
+                                "employee": {
+                                    "value":  {
+                                        "first_name": "José",
+                                        "last_name": "Da Silva",
+                                        "birth_year": 1989,
+                                        "monthly_salary": 12000,
+                                        "seniority": "senior",
+                                        "specialty": "Quality Assurance"
+                                      }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes an employee",
+                "description": "This endpoint deletes the employee that has the given id",
+                "tags": ["Employees"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "properties": {
+                                    "employee_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }, 
+                            "examples": {
+                                "employee": {
+                                    "value":  {
+                                        "employee_id": "(id of an existing employee)"
+                                      }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Updates an employee's data",
+                "description": "This endpoint updates an employee's information in the database with the new given data",
+                "tags": ["Employees"],
+                "requestBody": {
+                    "content":{
+                        "application/json": {
+                            "schema": { 
+                                "type": "object",
+                                "properties": {
+                                    "employee_id": {"type":"string"},
+                                    "employee":{
+                                        "type": "object",
+                                        "properties":{
+                                            "first_name": {
+                                                "type": "string"
+                                            },
+                                            "last_name": {
+                                                "type": "string"
+                                            },
+                                            "birth_year": {
+                                                "type": "number"
+                                            },
+                                            "monthly_salary": {
+                                                "type": "number"
+                                            },
+                                            "seniority": {
+                                                "type": "string"
+                                            },
+                                            "specialty": {
+                                                "type": "string"
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            },
+                            "examples":{
+                                "example id":  {
+                                    "value": {"employee_id":"(id of an existing employee)"}
+                                  }
+                            }
+                            
+                        }
+                    }
+                },
+                "responses": {
+                    "204":{
+                        "description" : "Sucess message",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        },
+        "/employee/search/{id}": {
+            "get":{
+                "summary": "Gets a single employee's details",
+                "description": "This endpoint gets a single employee's data and a list of projects to wich he is appointed to",
+                "tags": ["Employees"],
+                "parameters":[
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The id of the employee that is being searched",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description" : "An employee's details and his projects",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "employee_data":{"$ref": "#components/schemas/Employee"},
+                                        "allocated_projects": {
+                                            "type": "array",
+                                            "items": {"$ref": "#components/schemas/AllocatedProject"}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      },
+      "components": {
+        "schemas": {
+            "Employee":{
+                "type": "object",
+                "properties": {
+                    "employee_id": {"type": "string"},
+                    "first_name": {"type": "string"},
+                    "last_name": {"type": "string"},
+                    "birth_year": {"type": "string"},
+                    "monthly_salary": {"type": "number"},
+                    "specialty": {"type": "string"},
+                    "seniority": {"type": "string"}
+                }
+            },
+            "AllocatedProject":{
+                "type": "object",
+                "properties": {
+                    "project_id": {"type": "string"},
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                    "role": {"type": "string"},
+                    "start_date": {"type": "string"},
+                    "end_date": {"type": "string"}
+                }
+            }
+
+        }
       }
-}
+    }
+      
