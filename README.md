@@ -9,12 +9,13 @@ The API and database were depolyed using Render (https://team-management-0br5.on
 - **Employee Management**: Create, read, update, and delete employees.
 - **Project Management**: Create, read, update, and delete projects.
 - **Allocation Management**: Allocate employees to projects and manage allocations.
+
+## API Documentation
+
+The full API documentation was made using [Swagger](https://swagger.io/) and can be found [here](https://team-management-0br5.onrender.com/api-docs). It contains detailed information about each endpoint, including request/response formats and usage examples.
+
 ## Technologies used
 - **RESTful API**: Exposes RESTful endpoints for easy integration with frontend or other applications.
 - **TypeScript**: The entire application is written in TypeScript.
 - **Express.js**: Utilizes Express.js, a minimalist web framework for Node.js, for handling HTTP requests.
 - **PostgreSQL Database**: Stores data in a PostgreSQL database in the cloud using https://neon.tech/ .
-
-## API Documentation
-
-The full API documentation was made using Swagger and can be found [here](https://team-management-0br5.onrender.com/api-docs). It contains detailed information about each endpoint, including request/response formats and usage examples.
